@@ -7,7 +7,8 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: HomeView,
+      meta: { title: 'title is home' }
     },
     {
       path: '/about',
@@ -15,7 +16,19 @@ const router = createRouter({
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
+      component: () => import('../views/AboutView.vue'),
+      meta: { title: 'im about page' },
+      beforeEnter: (to, from, next) => {
+        console.log('from object')
+        console.log(from)
+        console.log('to object')
+        console.log(to)
+        if (to.query.flg) {
+          to.meta.title = 'changed message'
+          console.log('route flg is ' + from.params.flg)
+        }
+        next()
+      }
     }
   ]
 })
